@@ -1,0 +1,79 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      lang="en"
+      layout:decorator="layout"
+      th:with="title=#{user.settings.changeinfo.title}">
+<th:block layout:fragment="content">
+    <div id="edit-user" class="content scaffold-edit" role="main">
+        <div class="container-fluid">
+            <div class="row">
+                <aside class="col-lg-12">
+                    <div class="spacer"></div>
+                    <form class="form-horizontal" action="#" th:action="@{~/account/reset}"
+                          th:object="${passwordReset}" method="post" data-toggle="validator">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 th:text="#{user.settings.resetPassword}">Wachtwoord wijzigen</h3>
+                            </div>
+
+                            <div class="panel-body">
+
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label" for="currentPassword"
+                                           th:text="#{user.settings.reset.old}">Oud
+                                        wachtwoord</label>
+                                    <div class="col-lg-10">
+                                        <input type="password" id="currentPassword" th:field="*{currentPassword}"/>
+                                    </div>
+                                    <div class="help-block with-errors">
+                                        <p th:each="error: ${#fields.errors('currentPassword')}"
+                                           th:text="${error}">Validation error</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label" for="newPassword"
+                                           th:text="#{user.settings.reset.new}">Nieuw wachtwoord</label>
+                                    <div class="col-lg-10">
+                                        <input type="password" id="newPassword" th:field="*{newPassword}"/>
+                                    </div>
+                                    <div class="help-block with-errors">
+                                        <p th:each="error: ${#fields.errors('newPassword')}"
+                                           th:text="${error}">Validation error</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label" for="confirmNewPassword"
+                                           th:text="#{user.password.repeat}">Herhaal
+                                        wachtwoord</label>
+                                    <div class="col-lg-10">
+                                        <input type="password" id="confirmNewPassword" data-match="#newPassword"
+                                               th:attr="data-match-error=#{user.password.match}"/>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="panel-footer">
+                                <div class="clearfix">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-sm btn-primary" th:text="#{button.save}">
+                                            Bewaar
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- End panel -->
+                            </div>
+                        </div>
+                    </form>
+                </aside>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{~/js/jquery-2.2.0.min.js}"></script>
+    <script th:src="@{~/js/bootstrap.js}"></script>
+    <script th:src="@{~/js/application.js}"></script>
+    <script th:src="@{~/js/parsley.min.js.js}"></script>
+    <script th:src="@{~/js/validator.js}"></script>
+
+</th:block>
+</html>

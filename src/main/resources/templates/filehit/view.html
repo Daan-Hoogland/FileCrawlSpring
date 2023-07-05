@@ -1,0 +1,71 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      lang="en"
+      layout:decorator="layout_tables"
+      th:with="title=#{filehit.info.title(${fileHit.id})}">
+<th:block layout:fragment="content">
+    <div id="project-detail" class="content scaffold-edit" role="main">
+        <div class="container-fluid">
+            <div class="row">
+                <aside class="col-lg-12">
+                    <div class="spacer"></div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 th:text="#{filehit.info.header}">Bestand hit details</h3>
+                        </div>
+                        <div class="panel-body">
+                            <h4 th:text="#{filehit.info}"></h4>
+                            <dl class="dl-horizontal">
+                                <dt th:text="#{filehit.id}">ID</dt>
+                                <dd th:text="${fileHit.id}"></dd>
+                                <dt th:text="#{filehit.name}">Bestandsnaam</dt>
+                                <dd th:text="${fileHit.name}"></dd>
+                                <dt th:text="#{filehit.name.base}">Bestandsnaam zonder extensie</dt>
+                                <dd th:text="${fileHit.baseName}"></dd>
+                                <dt th:text="#{filehit.name.full}">Vol pad</dt>
+                                <dd th:text="${fileHit.fullName}"></dd>
+                                <dt th:text="#{filehit.hostname}">Hostnaam</dt>
+                                <dd th:text="${fileHit.hostname}"></dd>
+                                <dt th:text="#{filehit.ip}">IP</dt>
+                                <dd th:text="${fileHit.ip}"></dd>
+                                <dt th:text="#{filehit.time.creation}">Aanmaakdatum</dt>
+                                <dd th:text="${fileHit.creationTime}"></dd>
+                                <dt th:text="#{filehit.time.access}">Laatste opening</dt>
+                                <dd th:text="${fileHit.lastAccessTime}"></dd>
+                                <dt th:text="#{filehit.time.write}">Laatste wijziging</dt>
+                                <dd th:text="${fileHit.lastWriteTime}"></dd>
+                                <dt th:text="#{filehit.access}">Rechten</dt>
+                                <dd th:text="${fileHit.access}"></dd>
+                            </dl>
+
+                            <h4 th:text="#{directoryhit.info}"></h4>
+                            <dl class="dl-horizontal">
+                                <dt>Foldernaam</dt>
+                                <dd th:text="${fileHit.directoryHit.name}"></dd>
+                                <dt th:text="#{directoryhit.access}">Folder Rechten</dt>
+                                <dd th:text="${fileHit.directoryHit.access}"></dd>
+                                <dt th:text="#{directoryhit.time.creation}">Aanmaakdatum folder</dt>
+                                <dd th:text="${fileHit.directoryHit.creationTime}"></dd>
+                                <dt th:text="#{directoryhit.time.access}">Laatste opening folder</dt>
+                                <dd th:text="${fileHit.directoryHit.lastAccessTime}"></dd>
+                                <dt th:text="#{directoryhit.time.write}">Laatste wijziging folder</dt>
+                                <dd th:text="${fileHit.directoryHit.lastWriteTime}"></dd>
+                            </dl>
+                        </div>
+                        <div class="panel-footer">
+                            <a th:href="@{/projects/{projectId}/queries/{queryId}/hits/file/{id}/delete(projectId=${project.id}, queryId=${query.id}, id=${fileHit.id})}"
+                               class="btn btn-sm btn-danger"><i class="fa fa-trash fa-fw"
+                                                                aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{~/js/jquery-2.2.0.min.js}"></script>
+    <script th:src="@{~/js/bootstrap.js}"></script>
+    <script th:src="@{~/js/application.js}"></script>
+    <script th:src="@{~/js/parsley.min.js}"></script>
+
+</th:block>
+</html>

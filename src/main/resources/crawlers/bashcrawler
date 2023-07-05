@@ -1,0 +1,235 @@
+#!/bin/bash
+
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+	key="$1"
+
+	case $key in
+		-p|--path)
+DIR="$2"
+    shift # past argument
+    shift # past value
+    ;;
+    -n|--name)
+NAME="$2"
+    shift # past argument
+    shift # past value
+    ;;
+    -h|--hash)
+HASH="$2"
+    shift # past argument
+    shift # past value
+    ;;
+    -s|--size)
+SIZE="$2"
+    shift # past argument
+    shift # past value
+    ;;
+    -a|--algorithm)
+ALGORITHM="$2"
+    shift # past argument
+    shift # past value
+    ;;
+    -t|--target)
+TARGET="$2"
+    shift # past argument
+    shift # past value
+    ;;
+    -q|--query)
+QUERYID="$2"
+	shift
+	shift
+	;;
+	-e|--executed)
+EXECUTED="$2"
+	shift
+	shift
+	;;
+--default)
+DEFAULT=YES
+    shift # past argument
+    ;;
+    *)    # unknown option
+    POSITIONAL+=("$1") # save it in an array for later
+    shift # past argument
+    ;;
+esac
+done
+set -- "${POSITIONAL[@]}" # restore positional parameters
+
+array=()
+results=()
+
+
+if [ $"$NAME" -a -z "$HASH" -a -z $"$SIZE" ]
+	then
+	while IFS=  read -r -d $'\0'; do
+		array+=("$REPLY")
+	done < <(find $DIR -name ${NAME} -print0)
+fi
+
+if [ -z $"$NAME" -a "$HASH" -a -z $"$SIZE" ]
+	then
+	echo "HASH ONLY"
+
+	if [[ "$ALGORITHM" == "MD5" ]]; then
+		find ${DIR} -type f -exec md5sum {} + | grep ${HASH} | cut -d " " -f 3 > matches
+	fi
+
+	if [[ "$ALGORITHM" == "SHA256" ]]; then
+		find ${DIR} -type f -exec sha256sum {} + | grep ${HASH} | cut -d " " -f 3 > matches
+	fi
+
+	if [[ "$ALGORITHM" == "SHA512" ]]; then
+		find ${DIR} -type f -exec sha512sum {} + | grep ${HASH} | cut -d " " -f 3 > matches
+	fi
+
+	while read p; do
+		array+=$p
+	done <matches
+	rm -f matches
+fi
+
+
+if [ -z $"$NAME" -a -z "$HASH" -a $"$SIZE" ]
+	then
+	while IFS=  read -r -d $'\0'; do
+		array+=("$REPLY")
+	done < <(find $DIR -size ${SIZE}c -print0)
+fi
+
+if [ $"$NAME" -a "$HASH" -a -z $"$SIZE" ]
+	then
+
+	if [[ "$ALGORITHM" == "MD5" ]]; then
+		find ${DIR} -name ${NAME} -type f -exec md5sum {} + | grep ${HASH} | cut -d " " -f 3 > matches
+	fi
+
+	if [[ "$ALGORITHM" == "SHA256" ]]; then
+		find ${DIR} -name ${NAME} -type f -exec sha256sum {} + | grep ${HASH} | cut -d " " -f 3 > matches
+	fi
+
+	if [[ "$ALGORITHM" == "SHA512" ]]; then
+		find ${DIR} -name ${NAME} -type f -exec sha512sum {} + | grep ${HASH} | cut -d " " -f 3 > matches
+	fi
+
+	while read p; do
+		array+=$p
+	done <matches
+	rm -f matches
+fi
+
+
+if [ $"$NAME" -a -z "$HASH" -a $"$SIZE" ]
+	then
+	while IFS=  read -r -d $'\0'; do
+		array+=("$REPLY")
+		ECHO "$REPLY"
+	done < <(find $DIR -name ${NAME} -size ${SIZE}c -print0)
+fi
+
+
+if [ -z $"$NAME" -a "$HASH" -a $"$SIZE" ]
+	then
+
+		if [[ "$ALGORITHM" == "MD5" ]]; then
+	find ${DIR} -size ${SIZE}c -type f -exec md5sum {} + | grep ${HASH} | cut -d " " -f 3 > matches
+	fi
+
+	if [[ "$ALGORITHM" == "SHA256" ]]; then
+	find ${DIR} -size ${SIZE}c -type f -exec sha256sum {} + | grep ${HASH} | cut -d " " -f 3 > matches
+	fi
+
+	if [[ "$ALGORITHM" == "SHA512" ]]; then
+	find ${DIR} -size ${SIZE}c -type f -exec sha512sum {} + | grep ${HASH} | cut -d " " -f 3 > matches
+	fi
+
+	while read p; do
+		array+=$p
+	done <matches
+	rm -f matches
+fi
+
+
+if [ $"$NAME" -a "$HASH" -a $"$SIZE" ]
+	then
+
+			if [[ "$ALGORITHM" == "MD5" ]]; then
+	find ${DIR} -name ${NAME} -size ${SIZE}c -type f -exec md5sum {} + | grep ${HASH} | cut -d " " -f 3 > matches
+	fi
+
+	if [[ "$ALGORITHM" == "SHA256" ]]; then
+	find ${DIR} -name ${NAME} -size ${SIZE}c -type f -exec sha256sum {} + | grep ${HASH} | cut -d " " -f 3 > matches
+	fi
+
+	if [[ "$ALGORITHM" == "SHA512" ]]; then
+	find ${DIR} -name ${NAME} -size ${SIZE}c -type f -exec sha512sum {} + | grep ${HASH} | cut -d " " -f 3 > matches
+	fi
+
+	while read p; do
+		array+=$p
+	done <matches
+	rm -f matches
+fi
+
+IP="$(ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1 -d'/')"
+
+if [ -z $"$NAME" -a -z "$HASH" -a -z $"$SIZE" ]
+	then
+	if [ -d "$DIR" ]; then
+		NAME=$DIR
+		ACCESS="$(stat -c '%a' $DIR)"
+		CREATIONTIME="$(stat -c '%W' $DIR)"
+		LASTACCESSTIME="$(stat -c '%X' $DIR)"
+		LASTWRITETIME="$(stat -c '%Y' $DIR)"
+		COMPUTERHOSTNAME="$HOSTNAME"
+
+		JSON="{\"Name\": \""$DIR"\",\"Access\": \""$ACCESS"\",\"CreationTime\": \""$CREATIONTIME"\",\"LastAccessTime\": \""$LASTACCESSTIME"\",\"LastWriteTime\": \""$LASTWRITETIME"\",\"Hostname\": \""$COMPUTERHOSTNAME"\",\"IP\": \""$IP"\",\"QueryID\": "$QUERYID"}"
+
+		curl $TARGET \
+		-H "Accept: application/json" \
+		-H "Content-Type: application/json" \
+		-X POST \
+		--data "$JSON"
+
+	fi
+else
+	for result in "${array[@]}"
+	do
+		FILENAME="$(basename $result)"
+		BASENAME="${FILENAME%.*}"
+		FILEPATH="$result"
+		DIRECTORYNAME="$(dirname $result)"
+
+		COMPUTERHOSTNAME="$HOSTNAME"
+
+		CREATIONTIME="$(stat -c '%W' $result)"
+		LASTACCESSTIME="$(stat -c '%X' $result)"
+		LASTWRITETIME="$(stat -c '%Y' $result)"
+		ISREADONLY="$(stat -c '%a' $result)"
+
+		DIR=$(dirname "$result")
+		DIRECTORYCREATIONTIME="$(stat -c '%W' $DIR )"
+		DIRECTORYLASTACCESSTIME="$(stat -c '%X' $DIR)"
+		DIRECTORYLASTWRITETIME="$(stat -c '%Y' $DIR)"
+		ACCESS="$(stat -c '%a' $DIR)"
+
+		JSON="{\"Name\":\""$FILENAME"\", \"BaseName\":\""$BASENAME"\", \"FullName\": \""$FILEPATH"\", \"DirectoryName\":\""$DIRECTORYNAME"\", \"Hostname\":\""$COMPUTERHOSTNAME"\", \"IP\":\""$IP"\", \"CreationTime\":\""$CREATIONTIME"\", \"LastAccessTime\":\""$LASTACCESSTIME"\", \"LastWriteTime\":\""$LASTWRITETIME"\", \"Access\":\""$ISREADONLY"\",\"Directory\": {\"Name\": \""$DIR"\",\"Access\": \""$ACCESS"\",\"CreationTime\": \""$DIRECTORYCREATIONTIME"\",\"LastAccessTime\": \""$DIRECTORYLASTACCESSTIME"\",\"LastWriteTime\": \""$DIRECTORYLASTWRITETIME"\"},\"QueryID\": "$QUERYID"}"
+
+		curl $TARGET \
+		-H "Accept: application/json" \
+		-H "Content-Type: application/json" \
+		-X POST \
+		--data "$JSON"
+	done
+fi
+
+TIMEEXECUTED="$(date +%s)"
+EXECUTEDJSON="{\"Hostname\": \""$HOSTNAME"\", \"IP\":\""$IP"\", \"TimeExecuted\":\""$TIMEEXECUTED"\",\"Query\":"$QUERYID"}"
+
+curl $EXECUTED \
+-H "Accept: application/json" \
+-H "Content-Type: application/json" \
+-X POST \
+--data "$EXECUTEDJSON"

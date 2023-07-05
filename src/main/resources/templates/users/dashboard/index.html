@@ -1,0 +1,49 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      lang="en"
+      layout:decorator="layout"
+      th:with="title=#{user.settings.title}">
+<th:block layout:fragment="content">
+    <div id="project-detail" class="content scaffold-edit" role="main">
+        <div class="container-fluid">
+            <div class="row">
+                <aside class="col-lg-12">
+                    <div class="spacer"></div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 th:text="#{user.settings}">Account informatie</h3>
+                        </div>
+                        <div class="panel-body">
+                            <dl class="dl-horizontal">
+                                <dt th:text="#{user.email}">Email</dt>
+                                <dd th:text="${user.email}"></dd>
+                                <dt th:text="#{user.name.first}">Voornaam</dt>
+                                <dd th:text="${user.firstName}"></dd>
+                                <dt th:text="#{user.name.last}">Achternaam</dt>
+                                <dd th:text="${user.lastName}"></dd>
+                                <dt th:text="#{user.role}">Rol</dt>
+                                <dd th:text="${user.role.name}"></dd>
+                            </dl>
+                        </div>
+                        <div class="panel-footer">
+                            <a th:href="@{/account/edit}"
+                               class="btn btn-sm btn-primary">
+                                <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+                            </a>
+                            <a th:href="@{/account/reset}"
+                               class="btn btn-sm btn-danger">
+                                <i class="fa fa-key fa-fw" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{~/js/jquery-2.2.0.min.js}"></script>
+    <script th:src="@{~/js/bootstrap.js}"></script>
+    <script th:src="@{~/js/application.js}"></script>
+    <script th:src="@{~/js/parsley.min.js.js}"></script>
+
+</th:block>
+</html>

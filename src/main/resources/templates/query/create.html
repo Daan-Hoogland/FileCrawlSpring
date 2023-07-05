@@ -1,0 +1,143 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      lang="en"
+      layout:decorator="layout"
+      th:with="title=#{query.create.title}">
+<th:block layout:fragment="content">
+    <div id="create-query" class="content scaffold-edit" role="main">
+        <div class="container-fluid">
+            <div class="row">
+                <aside class="col-lg-12">
+                    <div class="spacer"></div>
+                    <form class="form-horizontal" action="#"
+                          th:action="@{/projects/{id}/queries/create(id=${project.id})}"
+                          th:object="${query}" method="post" data-toggle="validator">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 th:text="#{query.create}">Nieuwe query aanmaken</h3>
+                            </div>
+                            <div class="panel-body">
+
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label" for="name"
+                                               th:text="#{query.name}">Name</label>
+                                        <div class="col-lg-10">
+                                            <input type="text" id="name" th:field="*{name}" required=""/>
+                                        </div>
+                                        <div class="help-block with-errors">
+                                            <p th:each="error: ${#fields.errors('name')}"
+                                               th:text="${error}">Validation error</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label" for="paths"
+                                               th:text="#{query.paths}">Paden</label>
+                                        <div class="col-lg-10">
+                                            <input type="text" id="paths" th:field="*{paths}"
+                                                   placeholder="Paden gescheiden door ;, een spatie of een comma"/>
+                                        </div>
+                                        <div class="help-block with-errors">
+
+                                            <p th:each="error: ${#fields.errors('paths')}"
+                                               th:text="${error}">Validation error</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label" for="names"
+                                               th:text="#{query.names}">Namen</label>
+                                        <div class="col-lg-10">
+                                            <input type="text" id="names" th:field="*{names}"
+                                                   placeholder="Bestandsnamen gescheiden door ;, een spatie of een comma"/>
+                                        </div>
+                                        <p th:each="error: ${#fields.errors('names')}"
+                                           th:text="${error}">Validation error</p>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label" for="hash" th:text="#{query.hash}">Hashwaarde</label>
+                                        <div class="col-lg-10">
+                                            <input type="text" id="hash" th:field="*{hash}"
+                                                   placeholder="Hashwaarde bestand"/>
+                                        </div>
+                                        <div class="help-block with-errors">
+
+                                            <p th:each="error: ${#fields.errors('hash')}"
+                                               th:text="${error}">Validation error</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label" for="fileSize" th:text="#{query.size}">Bestandsgrootte</label>
+                                        <div class="col-lg-10">
+                                            <input type="number" id="fileSize" th:field="*{size}"
+                                                   placeholder="Bestandsgrootte in KB"/>
+                                        </div>
+                                        <div class="help-block with-errors">
+                                            <p th:each="error: ${#fields.errors('size')}"
+                                               th:text="${error}">Validation error</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label" for="hashAlgorithm"
+                                               th:text="#{query.hash.algorithm}">Hash algoritme</label>
+                                        <div class="col-lg-10">
+                                            <select id="hashAlgorithm" th:field="*{hashAlgorithm}">
+                                                <option th:each="algorithm : ${hashAlgorithms}"
+                                                        th:field="*{hashAlgorithm}"
+                                                        th:value="${algorithm}"
+                                                        th:text="${algorithm}">Hash algoritme
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="help-block with-errors">
+                                            <p th:each="error: ${#fields.errors('hashAlgorithm')}"
+                                               th:text="${error}">Validation error</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label" for="queryType" th:text="#{query.type}">Query
+                                            type</label>
+                                        <div class="col-lg-10">
+                                            <select id="queryType" th:field="*{type}">
+                                                <option th:each="type : ${types}"
+                                                        th:field="*{type}"
+                                                        th:value="${type}"
+                                                        th:text="${#strings.capitalize(type)}">Query type
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="help-block with-errors">
+                                            <p th:each="error: ${#fields.errors('type')}"
+                                               th:text="${error}">Validation error</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <div class="clearfix">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-sm btn-primary" th:text="#{button.save}">
+                                            Bewaar
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- End panel -->
+                            </div>
+                        </div>
+                    </form>
+                </aside>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{~/js/jquery-2.2.0.min.js}"></script>
+    <script th:src="@{~/js/bootstrap.js}"></script>
+    <script th:src="@{~/js/application.js}"></script>
+    <script th:src="@{~/js/parsley.min.js.js}"></script>
+    <script th:src="@{~/js/validator.js}"></script>
+
+</th:block>
+</html>

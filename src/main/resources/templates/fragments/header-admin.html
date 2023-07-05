@@ -1,0 +1,56 @@
+<header xmlns:th="http://www.thymeleaf.org" class="topnavbar-wrapper">
+    <!-- START Top Navbar-->
+    <nav role="navigation" class="navbar topnavbar">
+        <!-- START navbar header-->
+        <div class="navbar-header">
+            <a href="/" class="navbar-brand">
+                <div class="brand-logo">
+                    <img th:src="@{~/images/logo.png}" alt="DI Logo" style="height: 35px;" class="img-responsive"/>
+                </div>
+
+                <div class="brand-logo-collapsed">
+                    <!--<img src="img/logo-single.png" alt="App Logo" class="img-responsive">-->
+                </div>
+            </a>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="/projects" class="dropdown-toggle" data-toggle="dropdown" th:utext="#{header.projects}">Projecten<span
+                            class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/projects" th:text="#{header.projects.overview}">Overzicht</a></li>
+                        <li><a href="/projects/create" th:text="#{header.projects.create}">Maak nieuw project</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="/users" class="dropdown-toggle" data-toggle="dropdown" th:utext="#{header.admin.users}">Gebruikers<span
+                            class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/users" th:text="#{header.admin.users.overview}">Beheer gebruikers</a></li>
+                        <li><a href="/users/create" th:text="#{header.admin.users.create}">Maak nieuwe gebruiker</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-navav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-globe"
+                                                                                  aria-hidden="true"></i>
+                        <span
+                                class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{?lang=nl}">Nederlands</a></li>
+                        <li><a th:href="@{?lang=eng}">English</a></li>
+                    </ul>
+                </li>
+                <li><a th:href="@{~/account}" th:text="#{header.account}">Mijn account</a></li>
+                <li><a th:href="@{~/logout}" th:text="#{header.logout}">Log uit</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+        <!-- END navbar header-->
+    </nav>
+    <!-- END Top Navbar-->
+</header>

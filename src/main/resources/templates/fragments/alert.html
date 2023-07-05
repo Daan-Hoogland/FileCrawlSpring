@@ -1,0 +1,26 @@
+<th:block xmlns:th="http://www.thymeleaf.org" th:if="${param.success != null}">
+    <div class="container-fluid">
+        <div class="row">
+            <aside class="col-lg-12">
+                <div class="alert alert-success alert-dismissable"
+                     style="margin-bottom: 0px; margin-top: 10px; ">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Actie succesvol!</strong> <span th:text="${param.success[0]}"></span>
+                </div>
+            </aside>
+        </div>
+    </div>
+</th:block>
+<th:block th:if="${param.fail != null}" xmlns:th="http://www.thymeleaf.org">
+    <div class="container-fluid">
+        <div class="row">
+            <aside class="col-lg-12">
+                <div class="alert alert-danger alert-dismissable"
+                     style="margin-bottom: 0px; margin-top: 10px;">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Actie mislukt.</strong> <span th:text="${param.fail[0]}"></span>
+                </div>
+            </aside>
+        </div>
+    </div>
+</th:block>

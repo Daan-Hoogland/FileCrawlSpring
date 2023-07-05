@@ -1,0 +1,125 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      lang="en"
+      layout:decorator="layout"
+      th:with="title=#{user.create.title}">
+<th:block layout:fragment="content">
+    <div id="create-user" class="content scaffold-edit" role="main">
+        <div class="container-fluid">
+            <div class="row">
+                <aside class="col-lg-12">
+                    <div class="spacer"></div>
+                    <form class="form-horizontal" action="#" th:action="@{~/users/create}" th:object="${user}"
+                          method="post" data-toggle="validator">
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 th:text="#{user.create}">Gebruiker aanmaken</h3>
+                            </div>
+                            <div class="panel-body">
+
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label" for="name"
+                                           th:text="#{user.email}">Email</label>
+                                    <div class="col-lg-10">
+                                        <input type="email" id="name" th:field="*{email}" required=""
+                                               th:attr="data-error=#{NotEmpty.user.email}"/>
+                                    </div>
+                                    <div class="help-block with-errors">
+                                        <p th:each="error: ${#fields.errors('email')}"
+                                           th:text="${error}">Validation error</p>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label" for="inputPassword"
+                                           th:text="#{user.password}">Wachtwoord</label>
+                                    <div class="col-lg-10">
+                                        <input type="password" id="inputPassword" th:field="*{password}" required=""
+                                               th:attr="data-error=#{NotEmpty.user.password}"/>
+                                    </div>
+                                    <div class="help-block with-errors">
+                                        <p th:each="error: ${#fields.errors('password')}"
+                                           th:text="${error}">Validation error</p>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label" for="matchingPassword"
+                                           th:text="#{user.password.repeat}">Herhaal
+                                        wachtwoord</label>
+                                    <div class="col-lg-10">
+                                        <input type="password" id="matchingPassword"
+                                               data-match="#inputPassword"
+                                               th:attr="data-match-error=#{user.password.match}"/>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label" for="firstName" th:text="#{user.name.first}">Voornaam</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" id="firstName" th:field="*{firstName}" required=""
+                                               th:attr="data-error=#{NotEmpty.user.firstName}"/>
+                                    </div>
+                                    <div class="help-block with-errors">
+                                        <p th:each="error: ${#fields.errors('firstName')}"
+                                           th:text="${error}">Validation error</p>
+                                    </div>
+
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label" for="lastName" th:text="#{user.name.last}">Achternaam</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" id="lastName" th:field="*{lastName}" required=""
+                                               th:attr="data-error=#{NotEmpty.user.firstName}"/>
+                                    </div>
+                                    <div class="help-block with-errors">
+                                        <p th:each="error: ${#fields.errors('lastName')}"
+                                           th:text="${error}">Validation error</p>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-2 control-label" for="roles"
+                                           th:text="#{user.role}">Role</label>
+                                    <div class="col-lg-10">
+                                        <select id="roles" th:field="*{role}">
+                                            <option th:each="role : ${roles}"
+                                                    th:field="*{role}"
+                                                    th:value="${role.id}"
+                                                    th:text="${#strings.capitalize(role.name)}">Role name
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <p th:each="error: ${#fields.errors('role')}"
+                                       th:text="${error}">Validation error</p>
+                                </div>
+
+
+                            </div>
+                            <div class="panel-footer">
+                                <div class="clearfix">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-sm btn-primary" th:text="#{button.save}">
+                                            Bewaar
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- End panel -->
+                            </div>
+                        </div>
+                    </form>
+                </aside>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{~/js/jquery-2.2.0.min.js}"></script>
+    <script th:src="@{~/js/bootstrap.js}"></script>
+    <script th:src="@{~/js/validator.js}"></script>
+    <script th:src="@{~/js/application.js}"></script>
+    <script th:src="@{~/js/parsley.min.js.js}"></script>
+
+</th:block>
+</html>

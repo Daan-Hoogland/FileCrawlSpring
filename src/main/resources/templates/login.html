@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="layout" content="${gspLayout ?: 'main'}"/>
+    <script type="text/javascript">
+        // When ready...
+        window.addEventListener("load", function () {
+            // Set a timeout...
+            setTimeout(function () {
+                // Hide the address bar!
+                window.scrollTo(0, 1);
+            }, 0);
+        });
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="mobile-web-app-capable" content="yes"/>
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" th:href="@{~/css/bootstrap.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{~/css/vendor/app.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{~/css/vendor/animate.css/animate.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{~/css/vendor/fontawesome/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{~/css/vendor/whirl/whirl.css}"/>
+    <style type="text/css" media="screen">
+        body {
+            background-color: #444;
+            background: url(https://www.digital-investigation.nl/background_login.jpg);
+            background-size: cover;
+        }
+
+        .form-signin input[type="text"] {
+            margin-bottom: 5px;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .form-signin input[type="password"] {
+            margin-bottom: 10px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+
+        .form-signin .form-control {
+            position: relative;
+            font-size: 16px;
+            font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+            height: auto;
+            padding: 10px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        .vertical-offset-100 {
+            padding-top: 100px;
+        }
+
+        .img-responsive {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            margin: auto;
+            background-color: transparent;
+        }
+
+        .panel {
+            margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.75);
+            border: 1px solid transparent;
+            border-radius: 4px;
+            -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+            box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+        }
+
+        .panel-default > .panel-heading {
+            color: #333;
+            background-color: rgba(255, 255, 255, 0.6);
+            border-color: #ddd;
+        }
+
+        .btn-success {
+            color: #fff;
+            background-color: #3b96d2;
+            border-color: #3b96d2;
+        }
+
+        .btn-success:focus,
+        .btn-success.focus {
+            color: #fff;
+            background-color: #2476a3;
+            border-color: #2476a3;
+        }
+
+        .btn-success:hover {
+            color: #fff;
+            background-color: #2476a3;
+            border-color: #2476a3;
+        }
+
+        .btn-success:active,
+        .btn-success.active,
+        .open > .dropdown-toggle.btn-success {
+            color: #fff;
+            background-color: #2476a3;
+            border-color: #2476a31;
+        }
+
+        .btn-success:active:hover,
+        .btn-success.active:hover,
+        .open > .dropdown-toggle.btn-success:hover,
+        .btn-success:active:focus,
+        .btn-success.active:focus,
+        .open > .dropdown-toggle.btn-success:focus,
+        .btn-success:active.focus,
+        .btn-success.active.focus,
+        .open > .dropdown-toggle.btn-success.focus {
+            color: #fff;
+            background-color: #2476a3;
+            border-color: #2476a3;
+        }
+
+        label {
+            display: inline-block;
+            max-width: 100%;
+            margin-bottom: 4px;
+            font-weight: bold;
+            color: #2476a3;
+        }
+
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(document).mousemove(function (event) {
+                TweenLite.to($("body"),
+                    .5, {
+                        css: {
+                            backgroundPosition: "" + parseInt(event.pageX / 8) + "px " + parseInt(event.pageY / '12') + "px, " + parseInt(event.pageX / '15') + "px " + parseInt(event.pageY / '15') + "px, " + parseInt(event.pageX / '30') + "px " + parseInt(event.pageY / '30') + "px",
+                            "background-position": parseInt(event.pageX / 8) + "px " + parseInt(event.pageY / 12) + "px, " + parseInt(event.pageX / 15) + "px " + parseInt(event.pageY / 15) + "px, " + parseInt(event.pageX / 30) + "px " + parseInt(event.pageY / 30) + "px"
+                        }
+                    })
+            })
+        })
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row vertical-offset-100">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row-fluid user-row">
+                        <img src="https://www.digital-investigation.nl/npice/npice-icon.png" class="img-responsive"
+                             alt="NPICE Logo" width="120px" height="120px"/>
+                    </div>
+                </div>
+                <div class="panel-body">
+
+                    <div th:if="${param.error}">
+                        <div class="alert alert-danger text-center"
+                             style="margin-bottom: 0px; margin-top: 10px; ">
+                            <strong>Gebruikersnaam of wachtwoord onjuist.</strong>
+                        </div>
+                    </div>
+                    <div th:if="${param.logout}">
+                        <div class="alert alert-success text-center"
+                             style="margin-bottom: 0px; margin-top: 10px;">
+                            <strong>Succesvol uitgelogd.</strong>
+                        </div>
+                    </div>
+
+                    <form accept-charset="UTF-8" role="form" class="form-signin" th:action="@{~/login}" id="loginForm"
+                          method="POST" autocomplete="off">
+                        <fieldset>
+                            <label class="panel-login">
+                                <div class="login_result"></div>
+                            </label>
+                            <input class="form-control" placeholder="Gebruikersnaam" name="username" id="username"
+                                   type="text"/>
+                            <input class="form-control" placeholder="Wachtwoord" id="password" name="password"
+                                   type="password"/>
+                            <p id="remember_me_holder">
+                                <input type="checkbox" name="remember-me" id="remember_me"/>
+                                <label for="remember_me">Blijf ingelogd.</label>
+                            </p>
+
+                            <input class="btn btn-lg btn-success btn-block" type="submit" id="login" value="Log in"/>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{~/js/jquery-2.2.0.min.js}"></script>
+<script th:src="@{~/js/bootstrap.js}"></script>
+<script th:src="@{~/js/application.js}"></script>
+<script th:src="@{~/js/parsley.min.js.js}"></script>
+<script src="https://www.digital-investigation.nl/npice/TweenLite.min.js"></script>
+
+</body>
+</html>
